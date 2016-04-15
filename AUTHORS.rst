@@ -17,3 +17,7 @@ Contributors (chronological)
 - Evan Dempsey `@evandempsey <https://github.com/evandempsey>`_
 - Wesley Childs `@mrchilds <https://github.com/mrchilds>`_
 - Jeff Schnurr `@jschnurr <https://github.com/jschnurr>`_
+- Adel Qalieh `@adelq <https://github.com/adelq>`_
+- Lage Ragnarsson `@lragnarsson <https://github.com/lragnarsson>`_
+- Jonathon Coe `@jonmcoe <https://github.com/jonmcoe>`_
+- Adrián López Calvo `@AdrianLC <https://github.com/AdrianLC>`_

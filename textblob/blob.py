@@ -35,7 +35,7 @@ from textblob.compat import unicode, basestring
 from textblob.base import (BaseNPExtractor, BaseTagger, BaseTokenizer,
                        BaseSentimentAnalyzer, BaseParser)
 from textblob.np_extractors import FastNPExtractor
-from textblob.taggers import PatternTagger
+from textblob.taggers import NLTKTagger
 from textblob.tokenizers import WordTokenizer, sent_tokenize, word_tokenize
 from textblob.sentiments import PatternAnalyzer
 from textblob.parsers import PatternParser
@@ -91,16 +91,14 @@ class Word(unicode):
         '''Return the plural version of the word as a string.'''
         return Word(_pluralize(self.string))
 
-    def translate(self, from_lang=None, to="en"):
+    def translate(self, from_lang='auto', to="en"):
         '''Translate the word to another language using Google's
         Translate API.
 
         .. versionadded:: 0.5.0
         '''
-        if from_lang is None:
-            from_lang = self.translator.detect(self.string)
         return self.translator.translate(self.string,
-                                        from_lang=from_lang, to_lang=to)
+                                         from_lang=from_lang, to_lang=to)
 
     def detect_language(self):
         '''Detect the word's language using Google's Translate API.
@@ -321,7 +319,7 @@ class BaseBlob(StringlikeMixin, BlobComparableMixin):
     :param np_extractor: (optional) An NPExtractor instance. If ``None``,
         defaults to :class:`FastNPExtractor() <textblob.en.np_extractors.FastNPExtractor>`.
     :param pos_tagger: (optional) A Tagger instance. If ``None``,
-        defaults to :class:`PatternTagger <textblob.en.taggers.PatternTagger>`.
+        defaults to :class:`NLTKTagger <textblob.en.taggers.NLTKTagger>`.
     :param analyzer: (optional) A sentiment analyzer. If ``None``,
         defaults to :class:`PatternAnalyzer <textblob.en.sentiments.PatternAnalyzer>`.
     :param parser: A parser. If ``None``, defaults to
@@ -332,7 +330,7 @@ class BaseBlob(StringlikeMixin, BlobComparableMixin):
         ``clean_html`` parameter deprecated, as it was in NLTK.
     """
     np_extractor = FastNPExtractor()
-    pos_tagger = PatternTagger()
+    pos_tagger = NLTKTagger()
     tokenizer = WordTokenizer()
     translator = Translator()
     analyzer = PatternAnalyzer()
@@ -480,7 +478,7 @@ class BaseBlob(StringlikeMixin, BlobComparableMixin):
                             for i in range(len(self.words) - n + 1)]
         return grams
 
-    def translate(self, from_lang=None, to="en"):
+    def translate(self, from_lang="auto", to="en"):
         """Translate the blob to another language.
         Uses the Google Translate API. Returns a new TextBlob.
 
@@ -503,10 +501,8 @@ class BaseBlob(StringlikeMixin, BlobComparableMixin):
         :param str to: Language to translate to.
         :rtype: :class:`BaseBlob <BaseBlob>`
         """
-        if from_lang is None:
-            from_lang = self.translator.detect(self.string)
         return self.__class__(self.translator.translate(self.raw,
-                        from_lang=from_lang, to_lang=to))
+                              from_lang=from_lang, to_lang=to))
 
     def detect_language(self):
         """Detect the blob's language using the Google Translate API.
@@ -536,8 +532,8 @@ class BaseBlob(StringlikeMixin, BlobComparableMixin):
 
         :rtype: :class:`BaseBlob <BaseBlob>`
         """
-        # regex matches: contraction or word or punctuation or whitespace
-        tokens = nltk.tokenize.regexp_tokenize(self.raw, "\w*('\w*)+|\w+|[^\w\s]|\s")
+        # regex matches: word or punctuation or whitespace
+        tokens = nltk.tokenize.regexp_tokenize(self.raw, "\w+|[^\w\s]|\s")
         corrected = (Word(w).correct() for w in tokens)
         ret = ''.join(corrected)
         return self.__class__(ret)
@@ -589,7 +585,7 @@ class TextBlob(BaseBlob):
     :param np_extractor: (optional) An NPExtractor instance. If ``None``,
         defaults to :class:`FastNPExtractor() <textblob.en.np_extractors.FastNPExtractor>`.
     :param pos_tagger: (optional) A Tagger instance. If ``None``, defaults to
-        :class:`PatternTagger <textblob.en.taggers.PatternTagger>`.
+        :class:`NLTKTagger <textblob.en.taggers.NLTKTagger>`.
     :param analyzer: (optional) A sentiment analyzer. If ``None``, defaults to
         :class:`PatternAnalyzer <textblob.en.sentiments.PatternAnalyzer>`.
     :param classifier: (optional) A classifier.
@@ -711,7 +707,7 @@ class Blobber(object):
     :param np_extractor: (optional) An NPExtractor instance. If ``None``,
         defaults to :class:`FastNPExtractor() <textblob.en.np_extractors.FastNPExtractor>`.
     :param pos_tagger: (optional) A Tagger instance. If ``None``,
-        defaults to :class:`PatternTagger <textblob.en.taggers.PatternTagger>`.
+        defaults to :class:`NLTKTagger <textblob.en.taggers.NLTKTagger>`.
     :param analyzer: (optional) A sentiment analyzer. If ``None``,
         defaults to :class:`PatternAnalyzer <textblob.en.sentiments.PatternAnalyzer>`.
     :param parser: A parser. If ``None``, defaults to
@@ -722,7 +718,7 @@ class Blobber(object):
     """
 
     np_extractor = FastNPExtractor()
-    pos_tagger = PatternTagger()
+    pos_tagger = NLTKTagger()
     tokenizer = WordTokenizer()
     analyzer = PatternAnalyzer()
     parser = PatternParser()

@@ -141,7 +141,7 @@ You can also create synsets directly.
     >>> octopus.path_similarity(shrimp)
     0.1111111111111111
 
-For more information on the WordNet API, see the NLTK documentation on the `Wordnet Interface <http://nltk.googlecode.com/svn/trunk/doc/howto/wordnet.html>`_.
+For more information on the WordNet API, see the NLTK documentation on the `Wordnet Interface <http://www.nltk.org/howto/wordnet.html>`_.
 
 WordLists
 ---------
@@ -221,6 +221,7 @@ TextBlobs can be translated between languages.
     TextBlob("Simple es mejor que complejo.")
 
 If no source language is specified, TextBlob will attempt to detect the language. You can specify the source language explicitly, like so.
+Raises `TranslatorError <textblob.exceptions.TranslatorError>` if the TextBlob cannot be translated into the requested language or `NotTranslated <textblob.exceptions.NotTranslated>` if the translated result is the same as the input string.
 
 .. doctest::
 

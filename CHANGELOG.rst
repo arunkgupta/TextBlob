@@ -1,12 +1,39 @@
 Changelog
 =========
 
-0.9.2 (unreleased)
-------------------
+0.11.1 (2016-02-17)
+-------------------
 
 Bug fixes:
 
-- ``Translator.translate`` will detect language of input text by default (:issue:`85`). Thanks :user:`jschnurr`.
+- Fix translation and language detection (:issue:`115`, :issue:`117`, :issue:`119`). Thanks :user:`AdrianLC` and :user:`jschnurr` for the fix. Thanks :user:`AdrianLC`, :user:`edgaralts`, and :user:`pouya-cognitiv` for reporting.
+
+0.11.0 (2015-11-01)
+-------------------
+
+Changes:
+
+- Compatible with nltk>=3.1. NLTK versions < 3.1 are no longer supported.
+- Change default tagger to NLTKTagger (uses NLTK's averaged perceptron tagger).
+- Tested on Python 3.5.
+
+Bug fixes:
+
+- Fix singularization of a number of words. Thanks :user:`jonmcoe`.
+- Fix spelling correction when nltk>=3.1 is installed (:issue:`99`). Thanks :user:`shubham12101` for reporting.
+
+0.10.0 (2015-10-04)
+-------------------
+
+Changes:
+
+- Unchanged text is now considered a translation error. Raises ``NotTranslated`` (:issue:`76`). Thanks :user:`jschnurr`.
+
+Bug fixes:
+
+- ``Translator.translate`` will detect language of input text by default (:issue:`85`). Thanks again :user:`jschnurr`.
+- Fix matching of tagged phrases with CFG in ``ConllExtractor``. Thanks :user:`lragnarsson`.
+- Fix inflection of a few irregular English nouns. Thanks :user:`jonmcoe`.
 
 0.9.1 (2015-06-10)
 ------------------
